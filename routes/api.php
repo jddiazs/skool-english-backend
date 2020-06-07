@@ -22,6 +22,9 @@ Route::group(['middleware' => ['jwt.auth'], 'prefix' => 'v1'], function () {
     Route::get('/projects/user', 'ProjectsController@getCurrentUserProjects');
     Route::post('/projects', 'ProjectsController@createProject');
     Route::delete('/projects/{id}', 'ProjectsController@deleteProject');
+    Route::post('/course', 'CourseController@store');
+    Route::get('/course', 'CourseController@index');
+    Route::post('/upload', 'CourseController@upload');
 });
 
 Route::group(['middleware' => [], 'prefix' => 'auth'], function () {
