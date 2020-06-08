@@ -24,6 +24,9 @@ Route::group(['middleware' => ['jwt.auth'], 'prefix' => 'v1'], function () {
     Route::delete('/projects/{id}', 'ProjectsController@deleteProject');
     Route::post('/course', 'CourseController@store');
     Route::get('/course', 'CourseController@index');
+    Route::post('/unit', 'UnitController@store');
+    Route::get('/units/{id}', 'UnitController@getUnitsByCourse');
+    Route::post('/slide', 'SlideController@store');
     Route::post('/upload', 'CourseController@upload');
 });
 

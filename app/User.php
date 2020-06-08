@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Course;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -60,5 +61,12 @@ class User extends Authenticatable implements JWTSubject
     public function projects()
     {
         return $this->hasMany('App\Project');
+    }
+
+  /**
+   * @return \Illuminate\Database\Eloquent\Relations\HasMany
+   */
+    public function courses() {
+        return $this->hasMany(Course::class);
     }
 }
