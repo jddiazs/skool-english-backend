@@ -29,4 +29,33 @@ class SlideController extends Controller
       return response()->json($e->getMessage(), 500);
     }
   }
+
+  public function edit(Request $request, $id) {
+    $user = Auth::user();
+    if($user->type == '0') {
+      return response()->json('Los estudiantes no pueden editar contenido en las unidades', 401);
+    }
+
+    try {
+      Slide::where('id', $id)->update(['content' => $request->input('content')]);
+      $slide = Slide::find($id);
+      return response()->json($slide, 201);
+    } catch (\Exception $e) {
+      return response()->json($e->getMessage(), 500);
+    }
+  }
+
+  public function delete(Request $request, $id) {
+    $user = Auth::user();
+    if($user->type == '0') {
+      return response()->json('Los estudiantes no eliminar editar contenido en las unidades', 401);
+    }
+
+    try {
+      $slide = Slide::where('id', $id)->delete();
+      return response()->json($slide, 201);
+    } catch (\Exception $e) {
+      return response()->json($e->getMessage(), 500);
+    }
+  }
 }
