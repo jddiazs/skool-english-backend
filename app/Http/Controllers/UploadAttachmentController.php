@@ -6,7 +6,7 @@ use App\Attachment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class UploadAttachment extends Controller
+class UploadAttachmentController extends Controller
 {
 
   /**
@@ -21,7 +21,7 @@ class UploadAttachment extends Controller
 
     $attachData['original_name'] = $file->getClientOriginalName();
     $attachData['file_size'] = $file->getSize();
-    $attachData['created_by'] = $user->getId();
+    $attachData['created_by'] = $user->id;
     $extension = $file->getClientOriginalExtension();
     $attachData['type'] = $extension;
 

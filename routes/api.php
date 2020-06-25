@@ -29,7 +29,7 @@ Route::group(['middleware' => ['jwt.auth'], 'prefix' => 'v1'], function () {
     Route::post('/slide', 'SlideController@store');
     Route::post('/slide/edit/{id}', 'SlideController@edit');
     Route::post('/slide/delete/{id}', 'SlideController@delete');
-    Route::post('/upload', 'CourseController@upload');
+    Route::post('/upload', 'UploadAttachmentController@upload');
 });
 
 Route::group(['middleware' => [], 'prefix' => 'auth'], function () {
