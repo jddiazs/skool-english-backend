@@ -18,12 +18,13 @@ class CreateCoursesTable extends Migration
             $table->string('name', 255)->nullable($value = false);
             $table->string('slug', 255)->nullable($value = false)->unique();
             $table->boolean('status')->default(true);
-            $table->string('author', 255);
-            $table->longText('description');
+            $table->string('author', 255)->nullable($value = true);
+            $table->longText('description')->nullable($value = true);
+            $table->bigInteger('created_by')->unsigned()->nullable($value = true);
             $table->foreign('created_by')->references('id')->on('users');
-            $table->string('video_url', 255);
-            $table->foreign('video_attach_id', 255)->references('id')->on('attachments');
-            $table->foreign('audio_attach_id', 255)->references('id')->on('attachments');
+            $table->string('video_url', 255)->nullable($value = true);
+            $table->bigInteger('video_attach_id')->nullable($value = true);
+            $table->bigInteger('audio_attach_id')->nullable($value = true);
             $table->timestamps();
         });
     }

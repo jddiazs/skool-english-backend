@@ -20,6 +20,7 @@ class CreateAttachmentsTable extends Migration
             $table->string('file_path', 255);
             $table->string('type', 255);
             $table->bigInteger('file_size');
+            $table->bigInteger('created_by')->unsigned()->nullable($value = true);
             $table->foreign('created_by')->references('id')->on('users');
             $table->timestamps();
         });

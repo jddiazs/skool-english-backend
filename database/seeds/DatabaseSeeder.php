@@ -25,6 +25,12 @@ class DatabaseSeeder extends Seeder
         'type' => 0
       ]);
 
+      App\User::create([
+        'name' => 'Yuber',
+        'email' => 'ylopez@solution.com',
+        'password' => bcrypt('12345678'),
+        'type' => 1
+      ]);
 
 
       // factory(App\post::class, 24)->create();

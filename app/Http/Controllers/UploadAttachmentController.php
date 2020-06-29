@@ -31,14 +31,14 @@ class UploadAttachmentController extends Controller
     } elseif ($extension == 'mp3') {
       $folder = 'audio';
     }
-
-    $attachData['file_path'] = public_path($folder);
+    $publicPath = public_path($folder);
+    $attachData['file_path'] = '/public/'.$folder;
     $attachData['name']   = date('His').'-'.$attachData['original_name'];
 
-    $file->move($attachData['file_path'], $attachData['name']);
-    Attachment::create($attachData);
+    $file->move($publicPath, $attachData['name']);
+    $attach = Attachment::create($attachData);
 
-    return response()->json(['path' => $attachData['file_path'].DIRECTORY_SEPARATOR.$attachData['name']], 200);
+    return response()->json(['path' => $attachData['file_path'].DIRECTORY_SEPARATOR.$attachData['name'], 'attach' => $attach], 200);
   }
     /**
      * Display a listing of the resource.
