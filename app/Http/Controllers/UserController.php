@@ -70,7 +70,7 @@ class UserController extends Controller
       }
 
       try {
-        return response()->json($user, 201);
+        return response()->json($user->load('myCourses'), 201);
       } catch (ModelNotFoundException $e) {
         return response()->json($e->getMessage(), 500);
       }
@@ -113,8 +113,33 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(Request $request, User $user)
     {
-        //
+
+      $userCurrent = Auth::user();
+      if($userCurrent->type == '0') {
+        return response()->json('Los estudiantes no pueden eliminar usuarios', 401);
+      }
+
+      try {
+        $user = $user->delete();
+        return response()->json($user, 201);
+      } catch (\Exception $e) {
+        return response()->json($e->getMessage(), 500);
+      }
+    }
+
+    public function addCourse(Request $request, User $user) {
+      $currentUser = Auth::user();
+      if($currentUser->type == '0' ) {
+        return response()->json('Los estudiantes no pueden añadir cursos', 401);
+      }
+
+      try {
+        $user->myCourses()->sync($request->input('courses'));
+        return response()->json($user->load('myCourses'), 201);
+      } catch (ModelNotFoundException $e) {
+        return response()->json($e->getMessage(), 500);
+      }
     }
 }
