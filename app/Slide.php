@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Slide extends Model
 {
   protected $fillable = [
-    'content', 'type', 'status', 'unit_id', 'course_id', 'created_by'
+    'content', 'type', 'status', 'unit_id', 'course_id', 'created_by', 'position'
   ];
 
   public function unit(){

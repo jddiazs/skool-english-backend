@@ -25,6 +25,7 @@ Route::group(['middleware' => ['jwt.auth'], 'prefix' => 'v1'], function () {
     Route::post('/course', 'CourseController@store');
     Route::get('/course', 'CourseController@index');
     Route::post('/unit', 'UnitController@store');
+    Route::post('/unit/reorder-units', 'UnitController@reorderUnits');
     Route::get('/units/{id}', 'UnitController@getUnitsByCourse');
     Route::get('/users/{type}', 'UserController@index');
     Route::get('/user/{user}', 'UserController@show');
@@ -35,6 +36,7 @@ Route::group(['middleware' => ['jwt.auth'], 'prefix' => 'v1'], function () {
     Route::post('/slide', 'SlideController@store');
     Route::post('/slide/edit/{id}', 'SlideController@edit');
     Route::post('/slide/delete/{id}', 'SlideController@delete');
+    Route::post('/slide/reorder-slides', 'SlideController@reorderSlides');
     Route::post('/upload', 'UploadAttachmentController@upload');
 });
 

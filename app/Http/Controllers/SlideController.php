@@ -18,6 +18,7 @@ class SlideController extends Controller
     try {
       $data = [
         'content' => $request->input('content'),
+        'position' => $request->input('position'),
         'type' => $request->input('type'),
         'course_id' => $request->input('course_id'),
         'unit_id' => $request->input('unit_id'),
@@ -54,6 +55,25 @@ class SlideController extends Controller
     try {
       $slide = Slide::where('id', $id)->delete();
       return response()->json($slide, 201);
+    } catch (\Exception $e) {
+      return response()->json($e->getMessage(), 500);
+    }
+  }
+
+  public function reorderSlides(Request $request) {
+    $user = Auth::user();
+    if($user->type == '0') {
+      return response()->json('Los estudiantes no pueden editar las unidades', 401);
+    }
+
+    $data = $request->input('slides');
+    try {
+      if (is_array($data)) {
+        foreach ($data as $index => $slide) {
+          Slide::where('id', $slide['id'])->update(['position' => $slide['position']]);
+        }
+      }
+      return response()->json($data, 201);
     } catch (\Exception $e) {
       return response()->json($e->getMessage(), 500);
     }

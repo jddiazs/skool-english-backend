@@ -21,6 +21,7 @@ class UnitController extends Controller
     try {
       $data = [
         'name' => $request->input('name'),
+        'position' => $request->input('position'),
         'course_id' => $request->input('course_id'),
         'created_by' => $user->id
       ];
@@ -39,5 +40,24 @@ class UnitController extends Controller
       return response()->json($e->getMessage(), 500);
     }
 
+  }
+
+  public function reorderUnits(Request $request) {
+    $user = Auth::user();
+    if($user->type == '0') {
+      return response()->json('Los estudiantes no pueden editar las unidades', 401);
+    }
+
+    $data = $request->input('units');
+    try {
+      if (is_array($data)) {
+        foreach ($data as $index => $unit) {
+          Unit::where('id', $unit['id'])->update(['position' => $unit['position']]);
+        }
+      }
+      return response()->json($data, 201);
+    } catch (\Exception $e) {
+      return response()->json($e->getMessage(), 500);
+    }
   }
 }
