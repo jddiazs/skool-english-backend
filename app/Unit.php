@@ -8,7 +8,7 @@ use App\Slide;
 class Unit extends Model
 {
   protected $fillable = [
-    'name', 'status', 'course_id', 'created_by', 'position'
+    'name', 'type', 'color', 'icon',  'status', 'course_id', 'created_by', 'position'
   ];
 
   public function slides() {

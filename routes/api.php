@@ -19,9 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['middleware' => ['jwt.auth'], 'prefix' => 'v1'], function () {
 
-    Route::get('/projects/user', 'ProjectsController@getCurrentUserProjects');
-    Route::post('/projects', 'ProjectsController@createProject');
-    Route::delete('/projects/{id}', 'ProjectsController@deleteProject');
     Route::post('/course', 'CourseController@store');
     Route::get('/course', 'CourseController@index');
     Route::post('/unit', 'UnitController@store');
@@ -34,6 +31,7 @@ Route::group(['middleware' => ['jwt.auth'], 'prefix' => 'v1'], function () {
     Route::post('/user/delete/{user}', 'UserController@destroy');
     Route::post('/user/addCourse/{user}', 'UserController@addCourse');
     Route::post('/slide', 'SlideController@store');
+    Route::get('/slide/{slide}', 'SlideController@show');
     Route::post('/slide/edit/{id}', 'SlideController@edit');
     Route::post('/slide/delete/{id}', 'SlideController@delete');
     Route::post('/slide/reorder-slides', 'SlideController@reorderSlides');

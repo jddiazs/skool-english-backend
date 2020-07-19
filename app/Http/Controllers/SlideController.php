@@ -78,4 +78,22 @@ class SlideController extends Controller
       return response()->json($e->getMessage(), 500);
     }
   }
+
+  /**
+   * Display the specified resource.
+   *
+   * @param  \App\Slide  $slide
+   * @return \Illuminate\Http\Response
+   */
+  public function show(Slide $slide)
+  {
+    $currentUser = Auth::user();
+    $data = $slide->toArray();
+    $data['content'] = json_decode($data['content'], true);
+    try {
+      return response()->json($data, 201);
+    } catch (ModelNotFoundException $e) {
+      return response()->json($e->getMessage(), 500);
+    }
+  }
 }

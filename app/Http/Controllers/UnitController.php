@@ -18,9 +18,33 @@ class UnitController extends Controller
       return response()->json('Los estudiantes no pueden crear unidades', 401);
     }
 
+    $type = $request->input('type', 'Listening');
+    $color = '#743F95';
+    $icon = 'ear.svg';
+    switch ($type) {
+      case 'Speaking':
+        $color = '#FFC400';
+        $icon = 'chat.svg';
+        break;
+      case 'Writing':
+        $color = '#6795FC';
+        $icon = 'edit.svg';
+        break;
+      case 'Reading':
+        $color = '#FF8752';
+        $icon = 'book.svg';
+        break;
+      case 'Vocabulary':
+        $color = '#76D6C7';
+        $icon = 'translate.svg';
+        break;
+    }
     try {
       $data = [
         'name' => $request->input('name'),
+        'type' => $type,
+        'color' => $color,
+        'icon'  => $icon,
         'position' => $request->input('position'),
         'course_id' => $request->input('course_id'),
         'created_by' => $user->id
