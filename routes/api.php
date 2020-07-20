@@ -22,6 +22,7 @@ Route::group(['middleware' => ['jwt.auth'], 'prefix' => 'v1'], function () {
     Route::post('/course', 'CourseController@store');
     Route::get('/course', 'CourseController@index');
     Route::post('/unit', 'UnitController@store');
+    Route::get('/unit/{unit}', 'UnitController@show');
     Route::post('/unit/reorder-units', 'UnitController@reorderUnits');
     Route::get('/units/{id}', 'UnitController@getUnitsByCourse');
     Route::get('/users/{type}', 'UserController@index');
@@ -35,14 +36,11 @@ Route::group(['middleware' => ['jwt.auth'], 'prefix' => 'v1'], function () {
     Route::post('/slide/edit/{id}', 'SlideController@edit');
     Route::post('/slide/delete/{id}', 'SlideController@delete');
     Route::post('/slide/reorder-slides', 'SlideController@reorderSlides');
+    Route::post('/slide/user', 'SlideUserController@store');
     Route::post('/upload', 'UploadAttachmentController@upload');
 });
 
 Route::group(['middleware' => [], 'prefix' => 'auth'], function () {
-
-    Route::get('/projects', 'ProjectsController@getAll');
-//    Route::get('/projects/{id}', 'ProjectsController@getProjectById');
-    Route::get('/projects/{project}', 'ProjectsController@getProjectBySlug');
 
     // Auth
     Route::post('/login', 'TokensController@login');

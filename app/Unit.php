@@ -23,6 +23,10 @@ class Unit extends Model
     return $this->belongsTo(User::class);
   }
 
+  /**
+   * @param $id
+   * @return mixed
+   */
   public static function getUnitsByCourseId($id) {
     $units = self::where('course_id', '=', $id)->get();
     return $units->load('slides');

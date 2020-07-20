@@ -77,4 +77,8 @@ class User extends Authenticatable implements JWTSubject
   {
     return $this->belongsToMany('App\Course', 'course_user');
   }
+
+  public function slidesStatus() {
+    return $this->hasMany(App\SlideUser::class);
+  }
 }

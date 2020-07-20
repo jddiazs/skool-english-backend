@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Unit;
+use App\SlideUser;
 
 class UnitController extends Controller
 {
@@ -57,8 +58,27 @@ class UnitController extends Controller
   }
 
   public function getUnitsByCourse(Request $request, $id) {
+    $user = Auth::user();
+    $slideUser = SlideUser::getSlidesOrderByUnitId($user->id, $id);
     try {
       $units = Unit::getUnitsByCourseId($id);
+      $units->toArray();
+
+      foreach ($units as $key => $unit) {
+        $unitId = $unit['id'];
+        foreach ($unit['slides'] as  $k => $slide ) {
+          $slideId = $slide['id'];
+          $responseUser = null;
+          $statusByUser = null;
+          if (isset($slideUser[$unitId][$slideId])) {
+            $responseUser = $slideUser[$unitId][$slideId]['response_user'];
+            $statusByUser = $slideUser[$unitId][$slideId]['status'];
+          }
+          $units[$key]['slides'][$k]['response_user'] = $responseUser;
+          $units[$key]['slides'][$k]['status_by_user'] = $statusByUser;
+        }
+      }
+
       return response()->json($units, 201);
     } catch (\Exception $e) {
       return response()->json($e->getMessage(), 500);
@@ -81,6 +101,42 @@ class UnitController extends Controller
       }
       return response()->json($data, 201);
     } catch (\Exception $e) {
+      return response()->json($e->getMessage(), 500);
+    }
+  }
+
+  /**
+   * Display the specified resource.
+   *
+   * @param  \App\Unit  $unit
+   * @return \Illuminate\Http\Response
+   */
+  public function show(Unit $unit)
+  {
+    $slides = [];
+    $replaceSlide = true;
+    $beforePosition = null;
+    $unit = $unit->load('slides')->toArray();
+    if(is_array($unit['slides'])) {
+      foreach ($unit['slides'] as $key => $slide) {
+        if(isset($slide['content'])) {
+          $unit['slides'][$key]['content'] = json_decode($slide['content'], true);
+        }
+
+        if ($beforePosition !== $slide['position']) {
+          $slides[$slide['position']] = $slide;
+        } else  {
+          $replaceSlide = false;
+        }
+        $beforePosition = $slide['position'];
+      }
+      if ($replaceSlide) {
+        $unit['slides'] = $slides;
+      }
+    }
+    try {
+      return response()->json($unit, 201);
+    } catch (ModelNotFoundException $e) {
       return response()->json($e->getMessage(), 500);
     }
   }
