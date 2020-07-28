@@ -16,7 +16,7 @@ class UnitController extends Controller
   public function store(Request $request){
     $user = Auth::user();
     if($user->type == '0') {
-      return response()->json('Los estudiantes no pueden crear unidades', 401);
+      return response()->json('Los estudiantes no pueden crear unidades', 403);
     }
 
     $type = $request->input('type', 'Listening');
@@ -89,7 +89,7 @@ class UnitController extends Controller
   public function reorderUnits(Request $request) {
     $user = Auth::user();
     if($user->type == '0') {
-      return response()->json('Los estudiantes no pueden editar las unidades', 401);
+      return response()->json('Los estudiantes no pueden editar las unidades', 403);
     }
 
     $data = $request->input('units');
@@ -124,7 +124,7 @@ class UnitController extends Controller
         }
 
         if ($beforePosition !== $slide['position']) {
-          $slides[$slide['position']] = $slide;
+          $slides[$slide['position']] = $unit['slides'][$key];
         } else  {
           $replaceSlide = false;
         }

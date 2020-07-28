@@ -47,7 +47,6 @@ class SlideUserController extends Controller
           return response()->json($e->getMessage(), 500);
         }
       } else {
-        return dd($slideUser);
         $data = [
           'response_user'  => $request->input('response_user', null),
           'status' => $request->input('status')

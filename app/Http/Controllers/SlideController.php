@@ -12,7 +12,7 @@ class SlideController extends Controller
   public function store(Request $request){
     $user = Auth::user();
     if($user->type == '0') {
-      return response()->json('Los estudiantes no pueden crear contenido en las unidades', 401);
+      return response()->json('Los estudiantes no pueden crear contenido en las unidades', 403);
     }
 
     try {
@@ -34,7 +34,7 @@ class SlideController extends Controller
   public function edit(Request $request, $id) {
     $user = Auth::user();
     if($user->type == '0') {
-      return response()->json('Los estudiantes no pueden editar contenido en las unidades', 401);
+      return response()->json('Los estudiantes no pueden editar contenido en las unidades', 403);
     }
 
     try {
@@ -49,7 +49,7 @@ class SlideController extends Controller
   public function delete(Request $request, $id) {
     $user = Auth::user();
     if($user->type == '0') {
-      return response()->json('Los estudiantes no eliminar editar contenido en las unidades', 401);
+      return response()->json('Los estudiantes no eliminar editar contenido en las unidades', 403);
     }
 
     try {
@@ -63,7 +63,7 @@ class SlideController extends Controller
   public function reorderSlides(Request $request) {
     $user = Auth::user();
     if($user->type == '0') {
-      return response()->json('Los estudiantes no pueden editar las unidades', 401);
+      return response()->json('Los estudiantes no pueden editar las unidades', 403);
     }
 
     $data = $request->input('slides');

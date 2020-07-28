@@ -17,7 +17,7 @@ class UserController extends Controller
     {
       $user = Auth::user();
       if($user->type == '0') {
-        return response()->json('Los estudiantes no pueden consultar usuarios', 401);
+        return response()->json('Los estudiantes no pueden consultar usuarios', 403);
       }
       try {
         $users = User::where("type", '=', $type)->get();
@@ -37,7 +37,7 @@ class UserController extends Controller
     {
       $user = Auth::user();
       if($user->type == '0') {
-        return response()->json('Los estudiantes no pueden crear usuarios', 401);
+        return response()->json('Los estudiantes no pueden crear usuarios', 403);
       }
 
       try {
@@ -66,7 +66,7 @@ class UserController extends Controller
     {
       $currentUser = Auth::user();
       if($currentUser->type == '0' &&  $user->id != $currentUser->id) {
-        return response()->json('Los estudiantes no pueden consultar otros usuarios', 401);
+        return response()->json('Los estudiantes no pueden consultar otros usuarios', 403);
       }
 
       try {
@@ -87,7 +87,7 @@ class UserController extends Controller
     {
       $currentUser = Auth::user();
       if($currentUser->type == '0' &&  $user->id != $currentUser->id) {
-        return response()->json('Los estudiantes no pueden editar otros usuarios', 401);
+        return response()->json('Los estudiantes no pueden editar otros usuarios', 403);
       }
       $data = [
         'name' => $request->input('name'),
@@ -118,7 +118,7 @@ class UserController extends Controller
 
       $userCurrent = Auth::user();
       if($userCurrent->type == '0') {
-        return response()->json('Los estudiantes no pueden eliminar usuarios', 401);
+        return response()->json('Los estudiantes no pueden eliminar usuarios', 403);
       }
 
       try {
@@ -132,7 +132,7 @@ class UserController extends Controller
     public function addCourse(Request $request, User $user) {
       $currentUser = Auth::user();
       if($currentUser->type == '0' ) {
-        return response()->json('Los estudiantes no pueden añadir cursos', 401);
+        return response()->json('Los estudiantes no pueden añadir cursos', 403);
       }
 
       try {

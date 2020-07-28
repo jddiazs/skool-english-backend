@@ -22,7 +22,7 @@ class CourseController extends Controller
     public function store(Request $request){
       $user = Auth::user();
       if($user->type == '0') {
-        return response()->json('Los estudiantes no pueden crear cursos', 401);
+        return response()->json('Los estudiantes no pueden crear cursos', 403);
       }
 
       try {
@@ -50,7 +50,7 @@ class CourseController extends Controller
   {
     $user = Auth::user();
     if($user == '0') {
-      return response()->json('Los estudiantes no pueden crear cursos', 401);
+      return response()->json('Los estudiantes no pueden crear cursos', 403);
     }
     try {
       return response()->json(Course::all(), 200);

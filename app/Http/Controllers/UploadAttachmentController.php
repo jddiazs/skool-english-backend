@@ -17,28 +17,40 @@ class UploadAttachmentController extends Controller
 
     $user = Auth::user();
     $attachData = [];
-    $file      = $request->file('file');
+    $files      = $request->file('file');
+    $response = [];
+    foreach ($files as $file) {
+      $attachData['original_name'] = $file->getClientOriginalName();
+      $attachData['file_size'] = $file->getSize();
+      $attachData['created_by'] = $user->id;
+      $extension = $file->getClientOriginalExtension();
+      $attachData['type'] = $extension;
 
-    $attachData['original_name'] = $file->getClientOriginalName();
-    $attachData['file_size'] = $file->getSize();
-    $attachData['created_by'] = $user->id;
-    $extension = $file->getClientOriginalExtension();
-    $attachData['type'] = $extension;
+      $folder = 'img';
+      if($extension == 'mp4') {
+        $folder = 'video';
+      } elseif ($extension == 'mp3') {
+        $folder = 'audio';
+      } elseif ($extension == 'pdf') {
+        $folder = 'docs';
+      }
 
-    $folder = 'img';
-    if($extension == 'mp4') {
-      $folder = 'video';
-    } elseif ($extension == 'mp3') {
-      $folder = 'audio';
+      $publicPath = public_path($folder);
+      $attachData['file_path'] = '/'.$folder;
+      $attachData['name']   = date('His').'-'.$attachData['original_name'];
+
+      $file->move($publicPath, $attachData['name']);
+      $attach = Attachment::create($attachData);
+
+      $response[] = ['path' =>  DIRECTORY_SEPARATOR.$folder.DIRECTORY_SEPARATOR.$attachData['name'], 'attach' => $attach];
     }
-    $publicPath = public_path($folder);
-    $attachData['file_path'] = '/public/'.$folder;
-    $attachData['name']   = date('His').'-'.$attachData['original_name'];
 
-    $file->move($publicPath, $attachData['name']);
-    $attach = Attachment::create($attachData);
+    if(count($response) == 1) {
+      return response()->json($response[0], 200);
+    } else  {
+      return response()->json($response, 200);
+    }
 
-    return response()->json(['path' => $attachData['file_path'].DIRECTORY_SEPARATOR.$attachData['name'], 'attach' => $attach], 200);
   }
     /**
      * Display a listing of the resource.
