@@ -59,4 +59,19 @@ class CourseController extends Controller
     }
 
   }
+
+  /**
+   * Display the specified resource.
+   *
+   * @param  \App\Course  $course
+   * @return \Illuminate\Http\Response
+   */
+  public function show(Course $course)
+  {
+    try {
+      return response()->json($course, 201);
+    } catch (ModelNotFoundException $e) {
+      return response()->json($e->getMessage(), 500);
+    }
+  }
 }

@@ -21,6 +21,7 @@ Route::group(['middleware' => ['jwt.auth'], 'prefix' => 'v1'], function () {
 
     Route::post('/course', 'CourseController@store');
     Route::get('/course', 'CourseController@index');
+    Route::get('/course/info/{course}', 'CourseController@show');
     Route::post('/unit', 'UnitController@store');
     Route::get('/unit/{unit}', 'UnitController@show');
     Route::post('/unit/reorder-units', 'UnitController@reorderUnits');
