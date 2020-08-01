@@ -53,7 +53,7 @@ class SlideUserController extends Controller
         ];
 
         try {
-          Slide::where('slide_id', '=', $slide_id)
+          SlideUser::where('slide_id', '=', $slide_id)
             ->where('user_id', '=', $user->id)
             ->update($data);
           return response()->json($data, 201);

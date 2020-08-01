@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
     {
       App\User::create([
         'name' => 'Julian Daniel',
+        'identification' => 123456,
         'email' => 'jdiaz@tiqal.com',
         'password' => bcrypt('12345678'),
         'type' => 1
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
 
       App\User::create([
         'name' => 'Luisa',
+        'identification' => 123457,
         'email' => 'lramirez@tiqal.com',
         'password' => bcrypt('12345678'),
         'type' => 0
@@ -27,6 +29,7 @@ class DatabaseSeeder extends Seeder
 
       App\User::create([
         'name' => 'Yuber',
+        'identification' => 1234568,
         'email' => 'ylopez@solution.com',
         'password' => bcrypt('12345678'),
         'type' => 1
