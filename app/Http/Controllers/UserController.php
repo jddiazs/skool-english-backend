@@ -47,6 +47,7 @@ class UserController extends Controller
           'email' => $request->input('email'),
           'phone_number' => $request->input('phone_number'),
           'type' => $request->input('type'),
+          'photo' => $request->input('photo'),
           'password' => bcrypt($request->input('password'))
         ];
         $user = User::create($data);
@@ -95,6 +96,7 @@ class UserController extends Controller
         'email' => $request->input('email'),
         'phone_number' => $request->input('phone_number'),
         'type' => $request->input('type'),
+        'photo' => $request->input('photo'),
         'password' => bcrypt($request->input('password'))
       ];
       User::where('id', $user->id)->update($data);
