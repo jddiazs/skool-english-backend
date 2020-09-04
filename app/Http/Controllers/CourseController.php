@@ -74,4 +74,56 @@ class CourseController extends Controller
       return response()->json($e->getMessage(), 500);
     }
   }
+
+  /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Course  $course
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Course $course)
+    {
+      $currentUser = Auth::user();
+      if($currentUser->type == '0') {
+        return response()->json('Los estudiantes no pueden editar cursos', 403);
+      }
+      $slug = Str::slug($request->input('name'), '-');
+        $data = [
+          'name' => $request->input('name'),
+          'author' => $request->input('author'),
+          'slug' => $slug,
+          'video_url' => $request->input('video_url')
+        ];
+        Course::where('id', $course->id)->update($data);
+
+      try {
+        return response()->json($course, 201);
+      } catch (ModelNotFoundException $e) {
+        return response()->json($e->getMessage(), 500);
+      }
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Course  $course
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, Course $course)
+    {
+
+      $userCurrent = Auth::user();
+      if($userCurrent->type == '0') {
+        return response()->json('Los estudiantes no pueden eliminar coursos', 403);
+      }
+
+      try {
+        $course = $course->delete();
+        return response()->json($course, 200);
+      } catch (\Exception $e) {
+        return response()->json($e->getMessage(), 500);
+      }
+    }
 }

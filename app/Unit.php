@@ -29,6 +29,7 @@ class Unit extends Model
    */
   public static function getUnitsByCourseId($id) {
     $units = self::where('course_id', '=', $id)->get();
+    $units = $units->load('formUser');
     return $units->load('slides');
   }
 }

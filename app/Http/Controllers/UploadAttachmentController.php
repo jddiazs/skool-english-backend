@@ -19,6 +19,9 @@ class UploadAttachmentController extends Controller
     $attachData = [];
     $files      = $request->file('file');
     $response = [];
+    if (!is_array($files)) {
+      return response()->json(['path' =>  null, 'attach' => null], 200);
+    }
     foreach ($files as $file) {
       $attachData['original_name'] = $file->getClientOriginalName();
       $attachData['file_size'] = $file->getSize();

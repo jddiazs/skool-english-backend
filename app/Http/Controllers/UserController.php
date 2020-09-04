@@ -144,4 +144,22 @@ class UserController extends Controller
         return response()->json($e->getMessage(), 500);
       }
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function isAdmin(Request $request)
+    {
+
+      $userCurrent = Auth::user();
+      if($userCurrent->type == '0') {
+        return response()->json(false, 201);
+      }
+      if($userCurrent->type == '1') {
+        return response()->json(true, 201);
+      }
+    
+    }
 }

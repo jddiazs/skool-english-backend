@@ -140,4 +140,75 @@ class UnitController extends Controller
       return response()->json($e->getMessage(), 500);
     }
   }
+
+  /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Unit  $unit
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Unit $unit)
+    {
+      $currentUser = Auth::user();
+      if($currentUser->type == '0') {
+        return response()->json(['messages' =>'Los estudiantes no pueden editar unidades'], 403);
+      }
+
+      $type = $request->input('type', 'Listening');
+      $color = '#743F95';
+      $icon = 'ear.svg';
+      switch ($type) {
+        case 'Speaking':
+          $color = '#FFC400';
+          $icon = 'chat.svg';
+          break;
+        case 'Writing':
+          $color = '#6795FC';
+          $icon = 'edit.svg';
+          break;
+        case 'Reading':
+          $color = '#FF8752';
+          $icon = 'book.svg';
+          break;
+        case 'Vocabulary':
+          $color = '#76D6C7';
+          $icon = 'translate.svg';
+          break;
+      }
+      try {
+        $data = [
+          'name' => $request->input('name'),
+          'type' => $type,
+          'color' => $color,
+          'icon'  => $icon
+        ];
+        Unit::where('id', $unit->id)->update($data);
+        return response()->json($unit, 201);
+      } catch (\Exception $e) {
+        return response()->json($e->getMessage(), 500);
+      }
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Unit  $unit
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, Unit $unit)
+    {
+
+      $userCurrent = Auth::user();
+      if($userCurrent->type == '0') {
+        return response()->json('Los estudiantes no pueden eliminar unidades', 403);
+      }
+
+      try {
+        $unit = $unit->delete();
+        return response()->json($unit, 200);
+      } catch (\Exception $e) {
+        return response()->json($e->getMessage(), 500);
+      }
+    }
 }
